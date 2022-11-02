@@ -1,6 +1,6 @@
 # CSE 230 Final Project
 ### Team: Tina Jin, Bill Hsu, Yi Zhang, Darlene Jiang
-### Proposal
+## Proposal
 #### Project Idea
 We intend to implement a playable piano keyboard with additional features like playing MIDI files or an interactive piano tutorial.
 #### Useful Packages
