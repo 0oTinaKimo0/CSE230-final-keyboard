@@ -8,8 +8,8 @@ We are going to utilize the [Brick](https://hackage.haskell.org/package/brick) l
 #### Goals
 To start with, we are going to implement a basic piano keyboard, where each note is bound to a key on the computer keyboard. When a key is hit, we want to highlight that key while playing the note bound to the key. If time permits we are going to add more features. The end goal is either a education software with auto-scroll piano sheet music, or a rhythm game with a scoreboard.
 #### Timeline
-11.9 Project Proposal
-Basic Keyboard Implementation, including drawing rectangles for keys, playing notes, and highlighting keys played
-11.23 Project Update
-Keyboard Addons, including dropping bars as notes are played, or displaying piano sheet music.
+11.9 Project Proposal\
+Basic Keyboard Implementation, including drawing rectangles for keys, playing notes, and highlighting keys played\
+11.23 Project Update\
+Keyboard Addons, including dropping bars as notes are played, or displaying piano sheet music.\
 12.7 Project Demonstration
