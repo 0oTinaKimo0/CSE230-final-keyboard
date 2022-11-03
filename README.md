@@ -2,7 +2,7 @@
 ### Team: Tina Jin, Bill Hsu, Yi Zhang, Darlene Jiang
 ## Proposal
 #### Project Idea
-We intend to implement a playable piano keyboard with additional features like playing MIDI files or an interactive piano tutorial.
+We intend to implement a playable piano keyboard with additional features like playing MIDI files or an interactive piano tutorial. To our knowledge, there is no existing implementation with Brick, although there are implementations of piano keyboards in Haskell. However, we are proposing a further goal of implementating a game or tutorial, which should be novel.
 #### Useful Packages
 We are going to utilize the [Brick](https://hackage.haskell.org/package/brick) library for the TUI, and the [Euterpea](https://hackage.haskell.org/package/Euterpea) library for playing individual musical notes.
 #### Plan and Goals
