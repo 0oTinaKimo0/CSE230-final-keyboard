@@ -1,17 +1,23 @@
 module Logic where
 
 import Data.Array
-
+import Euterpea
+import Music
 import Game
 import Graphics.Gloss.Interface.Pure.Game
 
+
 isCoordCorrect = inRange (0, n - 1)
+
 playerTurn :: Game -> Int -> Game
 playerTurn game cellCoord
-    | isCoordCorrect cellCoord = 
-        game { gameBoard = board // [(cellCoord, (Just Pressed))]}
+    | isCoordCorrect cellCoord = do
+        -- playMusic game cellCoord
+        game { gameBoard = board // (shiftKeys cellCoord (n-1))}
     | otherwise = game
     where board = gameBoard game
+
+
 
 mousePosAsCellCoord :: (Float, Float) -> Int
 mousePosAsCellCoord (x, y) = floor ((x + (fromIntegral screenWidth * 0.5)) / cellWidth)

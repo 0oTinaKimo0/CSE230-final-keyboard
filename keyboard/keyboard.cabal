@@ -27,6 +27,7 @@ library
   exposed-modules:
       Game
       Logic
+      Music
       Rendering
   other-modules:
       Paths_keyboard
