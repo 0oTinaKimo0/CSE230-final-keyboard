@@ -13,7 +13,7 @@ data Game = Game { gameBoard :: Board
                  } deriving (Eq, Show)
 
 n :: Int
-n = 5
+n = 8
 
 screenWidth :: Int
 screenWidth = 640

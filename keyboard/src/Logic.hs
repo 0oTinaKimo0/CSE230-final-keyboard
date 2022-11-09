@@ -8,7 +8,7 @@ import Graphics.Gloss.Interface.Pure.Game
 isCoordCorrect = inRange (0, n - 1)
 playerTurn :: Game -> Int -> Game
 playerTurn game cellCoord
-    | isCoordCorrect cellCoord && board ! cellCoord == (Just Unpressed) = 
+    | isCoordCorrect cellCoord = 
         game { gameBoard = board // [(cellCoord, (Just Pressed))]}
     | otherwise = game
     where board = gameBoard game
