@@ -50,10 +50,12 @@ boardAsPicture board =
              ]
 
 boardAsPause board = color pauseColor (boardAsPicture board)
-gameAsPicture :: Game -> Picture
-gameAsPicture game = translate (fromIntegral screenWidth * (-0.5))
-                                (fromIntegral screenHeight * (-0.5))
-                                frame
+gameAsPicture :: Game -> IO Picture
+gameAsPicture game = do
+    skip
+    return (translate (fromIntegral screenWidth * (-0.5))
+                    (fromIntegral screenHeight * (-0.5))
+                    frame)
     where frame = case gameState game of
                         Running -> boardAsRunningPicture (gameBoard game)
                         Pause   -> boardAsPause (gameBoard game)
