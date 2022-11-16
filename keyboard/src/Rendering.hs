@@ -15,10 +15,12 @@ boardAsRunningPicture board =
             ,  color keyColor basicKey
              ]
 
+-- helper to select the key
 snapPictureToCell picture column = translate x y picture
     where x = fromIntegral column * cellWidth + cellWidth * 0.5
           y = cellHeight * 0.5
 
+-- helper to filter and return the colored picture
 cellsOfBoard :: Board -> Cell -> Picture -> Picture
 cellsOfBoard board cell cellPicture =
     pictures
@@ -29,9 +31,11 @@ cellsOfBoard board cell cellPicture =
 hKey :: Picture
 hKey = rectangleSolid cellWidth cellHeight
 
+-- action function
 highlightKey :: Board -> Picture
 highlightKey board = cellsOfBoard board (Just Pressed) hKey
 
+-- basic non-colored board
 basicKey :: Picture
 basicKey = 
     pictures
@@ -50,6 +54,8 @@ boardAsPicture board =
              ]
 
 boardAsPause board = color pauseColor (boardAsPicture board)
+
+-- essential function
 gameAsPicture :: Game -> IO Picture
 gameAsPicture game = do
     skip

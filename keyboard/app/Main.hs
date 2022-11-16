@@ -12,4 +12,4 @@ window = InWindow "Keyboard" (700, 500) (100, 100)
 backgroundColor = makeColor 255 255 255 255
 
 main :: IO ()
-main = playIO window backgroundColor 30 initialGame gameAsPicture transformGame updateGame
+main = playIO window backgroundColor 10 initialGame gameAsPicture transformGame updateGame
