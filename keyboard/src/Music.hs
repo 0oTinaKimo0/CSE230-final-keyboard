@@ -19,9 +19,15 @@ shiftKeys coord n
 notes :: [Music Pitch]
 notes = [c 4 qn, d 4 qn, e 4 qn, f 4 qn, g 4 qn, a 4 qn, b 4 qn, c 5 qn]
 
+-- Chords, Hard Coded
+chords :: [Music Pitch]
+chords = [chord [c 4 qn, d 4 qn, e 4 qn], chord [d 4 qn, e 4 qn, f 4 qn], chord [e 4 qn, f 4 qn, g 4 qn], 
+         chord [f 4 qn, g 4 qn, a 4 qn], chord [g 4 qn, a 4 qn, b 4 qn], chord [a 4 qn, b 4 qn, c 5 qn],
+         chord [b 4 qn, c 5 qn, c 4 qn], chord [c 5 qn, c 4 qn, d 4 qn]] 
+
 -- essential function
 playMusic :: Game -> Int -> IO Game
 playMusic game coord = do
-    play (notes!!coord)
+    play (chords!!coord)
     return game { gameBoard = board // (shiftKeys (-1) (n-1))} 
         where board = gameBoard game
