@@ -14,7 +14,7 @@ data Game = Game { gameBoard :: Board
                  } deriving (Eq, Show)
 
 n :: Int
-n = 8
+n = 14
 
 screenWidth :: Int
 screenWidth = 640
@@ -23,10 +23,16 @@ screenHeight :: Int
 screenHeight = 480
 
 cellWidth :: Float
-cellWidth = fromIntegral screenWidth / fromIntegral n 
+cellWidth = fromIntegral screenWidth / fromIntegral n
 
 cellHeight :: Float
 cellHeight = fromIntegral screenHeight
+
+blackCellWidth :: Float
+blackCellWidth = fromIntegral screenWidth * 0.8 / fromIntegral n
+
+blackCellHeight :: Float
+blackCellHeight = fromIntegral screenHeight * 0.5
 
 skip :: IO ()
 skip = return ()

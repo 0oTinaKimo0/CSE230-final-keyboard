@@ -13,6 +13,7 @@ pauseColor = greyN 0.5
 boardAsRunningPicture board =
     pictures [ color highLightColor $ highlightKey board
             ,  color keyColor basicKey
+            ,  color black blackKey
              ]
 
 -- helper to select the key
@@ -37,20 +38,30 @@ highlightKey board = cellsOfBoard board (Just Pressed) hKey
 
 -- basic non-colored board
 basicKey :: Picture
-basicKey = 
+basicKey =
     pictures
     $ concatMap (\i -> [ line [(i * cellWidth, 0.0)
                                 , (i * cellWidth, fromIntegral screenHeight)
-                                ] 
+                                ]
                         , line [ (0.0, i * cellHeight)
                               , (fromIntegral screenWidth, i * cellHeight)
-                              ]          
+                              ]
                         ])
     [0.0 .. fromIntegral n]
+
+-- black keys
+blackKey :: Picture
+blackKey =
+    pictures
+    $ concatMap (\i -> [translate (i * cellWidth)
+                                  (fromIntegral screenHeight * 0.5 + blackCellHeight * 0.5)
+                                  (rectangleSolid blackCellWidth blackCellHeight)])
+    (concatMap (\j -> j + 7.0 * (fromIntegral n / 7 - 1)) [1.0, 2.0, 4.0, 5.0, 6.0])
 
 boardAsPicture board =
     pictures [ highlightKey board
              , basicKey
+             , blackKey
              ]
 
 boardAsPause board = color pauseColor (boardAsPicture board)
