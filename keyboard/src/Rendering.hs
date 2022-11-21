@@ -56,7 +56,8 @@ blackKey =
     $ concatMap (\i -> [translate (i * cellWidth)
                                   (fromIntegral screenHeight * 0.5 + blackCellHeight * 0.5)
                                   (rectangleSolid blackCellWidth blackCellHeight)])
-    (concatMap (\j -> j + 7.0 * (fromIntegral n / 7 - 1)) [1.0, 2.0, 4.0, 5.0, 6.0])
+    (concatMap (\x -> [x, x + 7.0 .. x + 7.0 * fromIntegral (n `div` 7 - 1)]) origLyst)
+      where origLyst = [1.0, 2.0, 4.0, 5.0, 6.0]
 
 boardAsPicture board =
     pictures [ highlightKey board
