@@ -3,6 +3,7 @@ module Generator where
 import Data.Array
 import Euterpea
 import System.Random
+import System.IO
 
 -- 1. fixed feeling
 -- 2. random notes/chords/seq generator
@@ -10,53 +11,92 @@ import System.Random
 
 -- 3. [Music Pitch] -> String
 
--- notes order [c 4 qn, d 4 qn, e 4 qn, f 4 qn, g 4 qn, a 4 qn, b 4 qn, c 5 qn]
--- dictionary :: [Music Pitch]
--- dictionary = [c 4 qn, d 4 qn, e 4 qn, f 4 qn, g 4 qn, a 4 qn, b 4 qn, c 5 qn]
-
 -- Chords, Hard Coded
-dictionary :: [Music Pitch]
-dictionary = [chord [c 4 qn, d 4 qn, e 4 qn], chord [d 4 qn, e 4 qn, f 4 qn], chord [e 4 qn, f 4 qn, g 4 qn], 
-         chord [f 4 qn, g 4 qn, a 4 qn], chord [g 4 qn, a 4 qn, b 4 qn], chord [a 4 qn, b 4 qn, c 5 qn],
+-- To Do: add more notes/chord/lines
+anger_dicts :: [Music Pitch]
+anger_dicts = [chord [fs 3 qn, b 3 qn, ds 4 qn, fs 4 qn], chord [fs 3 qn, b 3 qn, d 4 qn, fs 4 qn], 
+               chord [f 3 qn, gs 3 qn, c 4 qn, f 4 qn], chord [gs 3 qn, cs 4 qn, e 4 qn, gs 4 qn]]
+
+-- To Do: add more notes/chord/lines
+love_dicts :: [Music Pitch]
+love_dicts = [line [b 3 sn, d 4 sn, fs 4 sn, b 3 sn, d 4 sn, fs 4 sn], line [d 4 sn, g 4 sn, b 4 sn, d 4 sn, g 4 sn, b 4 sn], 
+              line [a 3 sn, cs 4 sn, e 4 sn, a 3 sn, cs 4 sn, e 4 sn]]
+
+-- To Do: add more notes/chord/lines
+other_dicts :: [Music Pitch]
+other_dicts = [line [c 4 qn, d 4 qn, e 4 qn], line [d 4 qn, e 4 qn, f 4 qn], line [e 4 qn, f 4 qn, g 4 qn], 
+         line [f 4 qn, g 4 qn, a 4 qn], chord [g 4 qn, a 4 qn, b 4 qn], chord [a 4 qn, b 4 qn, c 5 qn],
          chord [b 4 qn, c 5 qn, c 4 qn], chord [c 5 qn, c 4 qn, d 4 qn]] 
 
 -- random seed
 seed :: Int
-seed = 40
+seed = 40000
 
 generator = mkStdGen seed
 
-score :: String -> [Music Pitch] -> Music Pitch
-score word dicts = 
+-- To Do: [Music Pitch] -> [Music Pitch] -> [Music Pitch] => [[Music Pitch]]
+-- To Do: word -> {words}
+
+score :: String -> [Music Pitch] -> [Music Pitch] -> [Music Pitch] -> Music Pitch
+score word anger_dicts love_dicts other_dicts = 
     case word of
-        -- fixed word-pitch pairs
-        "happy"     -> dicts !! 1
-        "sad"       -> dicts !! 2
-        "excited"   -> dicts !! 3
-        "a"         -> dicts !! 4
-        "b"         -> dicts !! 5
-        "c"         -> dicts !! 6
-        "d"         -> dicts !! 7
-        "e"         -> dicts !! 0
-        "f"         -> chord [c 4 qn, d 4 qn, e 4 qn]
+        -- fixed word-pitch pairs from fixed dictionaries (anger word from anger dicts)
+        "rage"          -> anger_dicts !! rand where
+            n = length anger_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "against"       -> anger_dicts !! rand where
+            n = length anger_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "dying"         -> anger_dicts !! rand where
+            n = length anger_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "light"         -> anger_dicts !! rand where
+            n = length anger_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "love"          -> love_dicts !! rand where
+            n = length love_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "story"         -> love_dicts !! rand where
+            n = length love_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "baby"          -> love_dicts !! rand where
+            n = length love_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "say"           -> love_dicts !! rand where
+            n = length love_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        "yes"           -> love_dicts !! rand where
+            n = length love_dicts
+            (rand, _) = randomR (0,(n-1)) generator
         -- random generators for word not in dictionary
-        otherwise   -> dicts !! rand where
-            n = length dicts
+        otherwise   -> other_dicts !! rand where
+            n = length other_dicts
             (rand, _) = randomR (0,(n-1)) generator
 
 -- parsed string mapped to music pitch
-getScore :: [String] -> [Music Pitch] -> [Music Pitch]
-getScore music_str dicts = map (\x -> score x dicts) music_str
+getScore :: [String] -> [Music Pitch] -> [Music Pitch] -> [Music Pitch] -> [Music Pitch]
+getScore music_str anger_dicts love_dicts other_dicts = map (\x -> score x anger_dicts love_dicts other_dicts) music_str
 
-inputString :: [String]
-inputString = ["I", "am", "happy", "and", "excited"]
+-- parse input string
+split_word :: Char -> String -> [String]
+split_word _ "" = []
+split_word c s = firstWord : (split_word c rest)
+    where firstWord = takeWhile (/=c) s
+          rest = drop (length firstWord + 1) s
 
-outputMusic :: [Music Pitch]
-outputMusic = getScore inputString dictionary
+removeChar :: Char -> String -> String
+removeChar _ [] = []
+removeChar ch (c:cs)
+    | c == ch   = removeChar ch cs
+    | otherwise = c:(removeChar ch cs)
 
-printElements :: [String] -> IO()
-printElements inputString =  mapM_ print inputString
+main = do
+    handle <- openFile "anger.txt" ReadMode
+    contents <- hGetContents handle
+    let input = (map (removeChar '"') (split_word ' ' contents))
+    print input
+    hClose handle
+    let outputMusic = getScore input anger_dicts love_dicts other_dicts
+    do
+        mapM_ play outputMusic
 
-playMusic :: [Music Pitch] -> IO()
-playMusic outputMusic = do
-    mapM_ play outputMusic
