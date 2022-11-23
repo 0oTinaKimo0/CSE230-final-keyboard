@@ -32,6 +32,9 @@ cellsOfBoard board cell cellPicture =
 hKey :: Picture
 hKey = rectangleSolid cellWidth cellHeight
 
+hBKey :: Picture
+hBKey = rectangleSolid cellWidth cellHeight
+
 -- action function
 highlightKey :: Board -> Picture
 highlightKey board = cellsOfBoard board (Just Pressed) hKey
@@ -47,16 +50,16 @@ basicKey =
                               , (fromIntegral screenWidth, i * cellHeight)
                               ]
                         ])
-    [0.0 .. fromIntegral n]
+    [0.0 .. fromIntegral (n * whiteN)]
 
 -- black keys
 blackKey :: Picture
 blackKey =
     pictures
     $ concatMap (\i -> [translate (i * cellWidth)
-                                  (fromIntegral screenHeight * 0.5 + blackCellHeight * 0.5)
+                                  (fromIntegral screenHeight * (1 - bWHRatio) + blackCellHeight * 0.5)
                                   (rectangleSolid blackCellWidth blackCellHeight)])
-    (concatMap (\x -> [x, x + 7.0 .. x + 7.0 * fromIntegral (n `div` 7 - 1)]) origLyst)
+    (concatMap (\x -> [x, x + 7.0 .. x + 7.0 * fromIntegral (n-1)]) origLyst)
       where origLyst = [1.0, 2.0, 4.0, 5.0, 6.0]
 
 boardAsPicture board =

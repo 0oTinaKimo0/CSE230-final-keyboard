@@ -14,7 +14,19 @@ data Game = Game { gameBoard :: Board
                  } deriving (Eq, Show)
 
 n :: Int
-n = 8
+n = 1
+
+whiteN :: Int
+whiteN = 8
+
+blackN :: Int
+blackN = 5
+
+isWhite :: Int -> Bool
+isWhite coord = coord < (n*whiteN)
+
+goBlack :: Int -> Int
+goBlack coord = coord + (n*whiteN)
 
 screenWidth :: Int
 screenWidth = 640
@@ -23,16 +35,22 @@ screenHeight :: Int
 screenHeight = 480
 
 cellWidth :: Float
-cellWidth = fromIntegral screenWidth / fromIntegral n
+cellWidth = fromIntegral screenWidth / fromIntegral (n * whiteN)
 
 cellHeight :: Float
 cellHeight = fromIntegral screenHeight
 
 blackCellWidth :: Float
-blackCellWidth = fromIntegral screenWidth * 0.8 / fromIntegral n
+blackCellWidth = fromIntegral screenWidth * bWWRatio / fromIntegral (n * whiteN)
 
 blackCellHeight :: Float
-blackCellHeight = fromIntegral screenHeight * 0.5
+blackCellHeight = fromIntegral screenHeight * bWHRatio
+
+bWWRatio :: Float
+bWWRatio = 0.8
+
+bWHRatio :: Float
+bWHRatio = 0.6
 
 skip :: IO ()
 skip = return ()
@@ -42,4 +60,4 @@ initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (rep
                     , gameState = Running
                     , prevEvent = []
                 }
-                where indexRange = (0, n - 1)
+                where indexRange = (0, n * (whiteN + blackN))

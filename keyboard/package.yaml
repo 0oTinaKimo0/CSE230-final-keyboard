@@ -25,6 +25,8 @@ dependencies:
 - gloss
 - brick
 - array
+- async
+- unbounded-delays
 
 ghc-options:
 - -Wall
