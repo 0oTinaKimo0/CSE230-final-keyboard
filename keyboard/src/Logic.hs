@@ -51,15 +51,10 @@ transformGame (EventKey (MouseButton LeftButton) Up _ mousePos) game =
         otherwise -> return game
 
 -- switch case (space)
--- transformGame (EventKey (SpecialKey KeySpace) Up _ mousePos) game = 
---     case prevEvent game of
---         [] -> case gameState game of
---                 Running -> playerTurn game $ mousePosAsCellCoord mousePos
---                 Pause -> do
---                     skip
---                     return initialGame
-                    
---         otherwise -> return game
+transformGame (EventKey (SpecialKey KeySpace) Up _ mousePos) game = 
+    case gameState game of
+        Running -> return game {gameState = Pause}
+        Pause -> return game {gameState = Running}
 
 -- non-event case
 -- essential function

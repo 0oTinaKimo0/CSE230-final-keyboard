@@ -66,6 +66,8 @@ boardAsPicture board =
     pictures [ highlightKey board
              , basicKey
              , blackKey
+             , color white (rectangleSolid 700 200)
+             , text "Pause"
              ]
 
 boardAsPause board = color pauseColor (boardAsPicture board)
