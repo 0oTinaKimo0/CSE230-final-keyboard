@@ -10,10 +10,11 @@ type Board = Array (Int) Cell
 
 data Game = Game { gameBoard :: Board
                  , gameState :: State
+                 , prevEvent :: [Int]
                  } deriving (Eq, Show)
 
 n :: Int
-n = 5
+n = 8
 
 screenWidth :: Int
 screenWidth = 640
@@ -27,7 +28,12 @@ cellWidth = fromIntegral screenWidth / fromIntegral n
 cellHeight :: Float
 cellHeight = fromIntegral screenHeight
 
-initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (repeat Nothing)) // [(0, (Just Pressed))]
+skip :: IO ()
+skip = return ()
+
+-- essential function
+initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (repeat Nothing)) -- // [(0,(Just Pressed))]
                     , gameState = Running
+                    , prevEvent = []
                 }
                 where indexRange = (0, n - 1)

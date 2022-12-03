@@ -13,3 +13,16 @@ Basic Keyboard Implementation, including drawing rectangles for keys, playing no
 11.23 Project Update\
 Keyboard Addons, including dropping bars as notes are played, or displaying piano sheet music.\
 12.7 Project Demonstration
+
+<!-- 
+What is the architecture of your application (the key components)?
+What challenges (if any) did you have so far and how did you solve them?
+Do you expect to meet your goals until the deadline?
+If not, how will you modify your goals?
+ -->
+
+#### Challenges
+What challenges (if any) did you have so far and how did you solve them?
+1. Parsing the input string
+    Covering all the possible delimiters and parse situations fits the real world situation, but it can be quite difficult for us to implement all situations, therefore, to help make our problem more doable, we decide that we will only allow whitespace delimiter. On top of that, I did not find a very useful library to parse the string (although there exists some function like parsec), so I googled online and with the help of StackOverflow, I seeked helpful recourses and solutions to read and parse contents from txt files.
+
