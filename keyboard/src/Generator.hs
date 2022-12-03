@@ -4,6 +4,7 @@ import Data.Array
 import Euterpea
 import System.Random
 import System.IO
+import qualified Data.Set as Set
 
 -- 1. fixed feeling
 -- 2. random notes/chords/seq generator
@@ -28,6 +29,13 @@ other_dicts = [line [c 4 qn, d 4 qn, e 4 qn], line [d 4 qn, e 4 qn, f 4 qn], lin
          line [f 4 qn, g 4 qn, a 4 qn], chord [g 4 qn, a 4 qn, b 4 qn], chord [a 4 qn, b 4 qn, c 5 qn],
          chord [b 4 qn, c 5 qn, c 4 qn], chord [c 5 qn, c 4 qn, d 4 qn]] 
 
+-- word -> {words}
+happy_set = Set.fromList ["love", "story", "baby", "say", "yes"]
+anger_set = Set.fromList ["rage", "against", "dying", "light"]
+
+-- dicts = [anger_dicts, love_dicts, other_dicts]
+-- sets = [happy_set, anger_set]
+
 -- random seed
 seed :: Int
 seed = 40000
@@ -35,47 +43,32 @@ seed = 40000
 generator = mkStdGen seed
 
 -- To Do: [Music Pitch] -> [Music Pitch] -> [Music Pitch] => [[Music Pitch]]
--- To Do: word -> {words}
 
-score :: String -> [Music Pitch] -> [Music Pitch] -> [Music Pitch] -> Music Pitch
-score word anger_dicts love_dicts other_dicts = 
-    case word of
-        -- fixed word-pitch pairs from fixed dictionaries (anger word from anger dicts)
-        "rage"          -> anger_dicts !! rand where
+score :: String -> Music Pitch
+score word = do
+    if (Set.member word happy_set) then
+        let 
+            n = length love_dicts
+            (rand, _) = randomR (0,(n-1)) generator
+        in
+            love_dicts !! rand
+    else if (Set.member word anger_set) then
+        let 
             n = length anger_dicts
             (rand, _) = randomR (0,(n-1)) generator
-        "against"       -> anger_dicts !! rand where
-            n = length anger_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "dying"         -> anger_dicts !! rand where
-            n = length anger_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "light"         -> anger_dicts !! rand where
-            n = length anger_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "love"          -> love_dicts !! rand where
-            n = length love_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "story"         -> love_dicts !! rand where
-            n = length love_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "baby"          -> love_dicts !! rand where
-            n = length love_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "say"           -> love_dicts !! rand where
-            n = length love_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        "yes"           -> love_dicts !! rand where
-            n = length love_dicts
-            (rand, _) = randomR (0,(n-1)) generator
-        -- random generators for word not in dictionary
-        otherwise   -> other_dicts !! rand where
+        in
+            anger_dicts !! rand
+    else 
+        let 
             n = length other_dicts
             (rand, _) = randomR (0,(n-1)) generator
+        in
+            other_dicts !! rand 
+
 
 -- parsed string mapped to music pitch
 getScore :: [String] -> [Music Pitch] -> [Music Pitch] -> [Music Pitch] -> [Music Pitch]
-getScore music_str anger_dicts love_dicts other_dicts = map (\x -> score x anger_dicts love_dicts other_dicts) music_str
+getScore music_str anger_dicts love_dicts other_dicts = map (\x -> score x) music_str
 
 -- parse input string
 split_word :: Char -> String -> [String]
@@ -99,4 +92,3 @@ main = do
     let outputMusic = getScore input anger_dicts love_dicts other_dicts
     do
         mapM_ play outputMusic
-
