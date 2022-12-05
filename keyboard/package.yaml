@@ -28,6 +28,7 @@ dependencies:
 - async
 - unbounded-delays
 - random
+- containers
 
 ghc-options:
 - -Wall

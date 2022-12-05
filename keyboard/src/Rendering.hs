@@ -17,9 +17,14 @@ boardAsRunningPicture board =
              ]
 
 -- helper to select the key
-snapPictureToCell picture column = translate x y picture
+snapPictureToCell picture column = shiftedPicture
     where x = fromIntegral column * cellWidth + cellWidth * 0.5
           y = cellHeight * 0.5
+          shiftedPicture = case (isWhite column) of 
+                            True -> translate x y picture
+                            False -> translate ((fromIntegral column) * cellWidth - (fromIntegral screenWidth) + cellWidth )
+                                  (fromIntegral screenHeight * (1 - bWHRatio) + blackCellHeight * 0.5)
+                                  (rectangleSolid (blackCellWidth*1.2) blackCellHeight)
 
 -- helper to filter and return the colored picture
 cellsOfBoard :: Board -> Cell -> Picture -> Picture
@@ -32,8 +37,6 @@ cellsOfBoard board cell cellPicture =
 hKey :: Picture
 hKey = rectangleSolid cellWidth cellHeight
 
-hBKey :: Picture
-hBKey = rectangleSolid cellWidth cellHeight
 
 -- action function
 highlightKey :: Board -> Picture

@@ -55,6 +55,7 @@ transformGame (EventKey (SpecialKey KeySpace) Up _ mousePos) game =
     case gameState game of
         Running -> return game {gameState = Pause}
         Pause -> return game {gameState = Running}
+        -- Gener -> return game {gameState = Running}
 
 -- non-event case
 -- essential function
