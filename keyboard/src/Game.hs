@@ -4,7 +4,7 @@ import Data.Array
 
 data HighLight = Unpressed | Pressed deriving (Eq, Show)
 type Cell = Maybe HighLight
-data State = Running | Pause deriving (Eq, Show)
+data State = Running | Pause | Gener deriving (Eq, Show)
 
 type Board = Array (Int) Cell
 

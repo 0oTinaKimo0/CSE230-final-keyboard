@@ -48,14 +48,15 @@ transformGame (EventKey (MouseButton LeftButton) Up _ mousePos) game =
                 Pause -> do
                     skip
                     return initialGame
+                Gener -> return game
         otherwise -> return game
 
 -- switch case (space)
 transformGame (EventKey (SpecialKey KeySpace) Up _ mousePos) game = 
     case gameState game of
         Running -> return game {gameState = Pause}
-        Pause -> return game {gameState = Running}
-        -- Gener -> return game {gameState = Running}
+        Pause -> return game {gameState = Gener}
+        Gener -> return game {gameState = Running}
 
 -- non-event case
 -- essential function
