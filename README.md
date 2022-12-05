@@ -25,4 +25,6 @@ If not, how will you modify your goals?
 What challenges (if any) did you have so far and how did you solve them?
 1. Parsing the input string
     Covering all the possible delimiters and parse situations fits the real world situation, but it can be quite difficult for us to implement all situations, therefore, to help make our problem more doable, we decide that we will only allow whitespace delimiter. On top of that, I did not find a very useful library to parse the string (although there exists some function like parsec), so I googled online and with the help of StackOverflow, I seeked helpful recourses and solutions to read and parse contents from txt files.
+2. Keyboard playground notes delay
+    Delay happens between each notes play. We tried asynchorize threading, but the midi file will be cloged by threading and fail to present smoothly for the entire play. So we decide to slow down the play and just play notes squentially. 
 
