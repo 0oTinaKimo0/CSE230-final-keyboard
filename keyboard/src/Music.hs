@@ -14,7 +14,6 @@ shiftKeys coord n
     | n == coord = [(n, (Just Pressed))] ++ (shiftKeys coord (n-1))
     | otherwise = [(n, (Just Unpressed))] ++ (shiftKeys coord (n-1))
 
-
 notesWhite :: [Music Pitch]
 notesWhite = [c 4 qn, d 4 qn, e 4 qn, f 4 qn, g 4 qn, a 4 qn, b 4 qn, c 5 qn]
 

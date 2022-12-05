@@ -27,6 +27,7 @@ dependencies:
 - array
 - async
 - unbounded-delays
+- random
 
 ghc-options:
 - -Wall
