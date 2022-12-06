@@ -70,21 +70,29 @@ executable keyboard-exe
 
 test-suite keyboard-test
   type: exitcode-stdio-1.0
-  main-is: Spec.hs
+  main-is: Test.hs
   other-modules:
+      Common
       Paths_keyboard
   hs-source-dirs:
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Euterpea
+    , QuickCheck
     , array
     , async
-    , base >=4.7 && <5
+    , base
     , brick
     , containers
+    , filepath
     , gloss
     , keyboard
+    , mtl
+    , process
     , random
+    , tasty
+    , tasty-hunit
+    , tasty-quickcheck
     , unbounded-delays
   default-language: Haskell2010
