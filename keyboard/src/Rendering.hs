@@ -16,16 +16,18 @@ boardAsRunningPicture board =
             ,  color black blackKey
              ]
 
-boardAsGenPicture board =
+
+
+boardAsGenPicture board game =
     pictures [ color highLightColor $ highlightKey board
             ,  color keyColor basicKey
             ,  color black blackKey
-            ,  trans (color keyColor (rectangleSolid 360 110))
-            ,  trans (color white (rectangleSolid 350 100))
-            ,  translate 0 ((fromIntegral screenHeight)/15) (scale 0.2 0.2 (text "Generator"))
+            ,  trans (color keyColor (rectangleSolid 510 60))
+            ,  trans (color white (rectangleSolid 500 50))
+            ,  translate 0 ((fromIntegral screenHeight)/15) (scale 0.2 0.2 (text (concatList (genText game))))
              ]
              where
-                trans = translate ((fromIntegral screenWidth)/4) ((fromIntegral screenHeight)/7)
+                trans = translate ((fromIntegral screenWidth)/2.8) ((fromIntegral screenHeight)/12)
 
 -- helper to select the key
 snapPictureToCell picture column = shiftedPicture
@@ -96,4 +98,4 @@ gameAsPicture game = do
     where frame = case gameState game of
                         Running -> boardAsRunningPicture (gameBoard game)
                         Pause   -> boardAsPause (gameBoard game)
-                        Gener   -> boardAsGenPicture (gameBoard game)
+                        Gener   -> boardAsGenPicture (gameBoard game) game

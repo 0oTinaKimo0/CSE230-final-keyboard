@@ -4,6 +4,7 @@ import Data.Array
 import Euterpea
 import System.Random
 import System.IO
+import Game
 import qualified Data.Set as Set
 
 -- 1. fixed feeling
@@ -83,12 +84,16 @@ removeChar ch (c:cs)
     | c == ch   = removeChar ch cs
     | otherwise = c:(removeChar ch cs)
 
-main = do
-    handle <- openFile "anger.txt" ReadMode
-    contents <- hGetContents handle
+textHandler game = do
+    handle <- openFile (txtFile game) ReadMode -- render
+    contents <- hGetContents handle 
     let input = (map (removeChar '"') (split_word ' ' contents))
-    print input
-    hClose handle
-    let outputMusic = getScore input anger_dicts love_dicts other_dicts
-    do
-        mapM_ play outputMusic
+    -- updateGenDisplay input -- render
+    -- hClose handle
+    return input
+
+close handle = hClose handle
+
+playGen input = do
+                    let outputMusic = getScore input anger_dicts love_dicts other_dicts
+                    mapM_ play outputMusic -- play music

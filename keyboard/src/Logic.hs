@@ -8,7 +8,7 @@ import Game
 import Graphics.Gloss.Interface.Pure.Game
 import Control.Concurrent.Async (async, wait)
 import Control.Concurrent.Thread.Delay
-
+import Generator
 
 isCoordCorrect = inRange (0, n*(whiteN + blackN))
 
@@ -48,15 +48,34 @@ transformGame (EventKey (MouseButton LeftButton) Up _ mousePos) game =
                 Pause -> do
                     skip
                     return initialGame
-                Gener -> return game
+                Gener -> 
+                    return game
         otherwise -> return game
 
--- switch case (space)
-transformGame (EventKey (SpecialKey KeySpace) Up _ mousePos) game = 
+transformGame (EventKey (Char 'p') Up _ mousePos) game = 
     case gameState game of
-        Running -> return game {gameState = Pause}
-        Pause -> return game {gameState = Gener}
-        Gener -> return game {gameState = Running}
+        Running -> return game
+        Pause -> return game
+        Gener -> do 
+                    playGen (genText game)
+                    -- close handle
+                    return game
+
+transformGame (EventKey (Char 'c') Up _ mousePos) game = 
+    case gameState game of
+        Running -> return game
+        Pause -> return game 
+        Gener -> case (txtFile game) of
+            "anger.txt" -> return game {txtFile = "love.txt"}
+            "love.txt" -> return game {txtFile = "user.txt"}
+            "user.txt" -> return game {txtFile = "anger.txt"}
+
+-- switch case (space)
+transformGame (EventKey (SpecialKey KeySpace) Up _ _) game = 
+    case gameState game of
+        Pause -> return game {gameState = Running}
+        Running -> do {text <- (textHandler game); return game {gameState = Gener, genText = text}}
+        Gener -> return game {gameState = Pause}
 
 -- non-event case
 -- essential function
@@ -67,11 +86,15 @@ transformGame _ game = do
 -- reflect on board each round
 -- essential function
 updateGame _ game = do
+    case gameState game of
+        Running -> case (prevEvent game) of
+                        [] -> return game -- regular case (no update)
+                        (x:xs) -> do -- played sound and clear the board afterwards
+                            -- _ <- async (playMusic game x)
+                            playMusic game x
+                            -- delay 100000
+                            return game { prevEvent = xs, gameBoard = (gameBoard game) // [(x, (Just Unpressed))]}
+        Pause -> return game
+        Gener -> do {text <- (textHandler game); return game {genText = text}}
     -- three cases each event in order to reduce the delay between sound and color changing
-    case (prevEvent game) of
-        [] -> return game -- regular case (no update)
-        (x:xs) -> do -- played sound and clear the board afterwards
-            -- _ <- async (playMusic game x)
-            playMusic game x
-            -- delay 100000
-            return game { prevEvent = xs, gameBoard = (gameBoard game) // [(x, (Just Unpressed))]}
+    
